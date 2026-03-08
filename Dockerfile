@@ -1,0 +1,23 @@
+# Use official PHP Apache base image
+FROM php:8.2-apache
+
+# Set working directory
+WORKDIR /var/www/html
+
+# Copy project files into container
+COPY . /var/www/html/
+
+# Install PHP extensions if needed
+RUN docker-php-ext-install mysqli pdo pdo_mysql
+
+# Enable Apache rewrite module
+RUN a2enmod rewrite
+
+# Set proper permissions
+RUN chown -R www-data:www-data /var/www/html
+
+# Expose port 80
+EXPOSE 80
+
+# Start Apache server
+CMD ["apache2-foreground"]
